@@ -4,21 +4,22 @@
 #include <iostream>
 #include "CRC.hpp"
 
+
 int main()
 {
-	auto oldCRC = CRCSecthion((PVOID)ApiWrapper::GetModuleAddress(0), ".text");
+	auto oldCRC = CRC::CRCSecthion((PVOID)ApiWrapper::GetModuleAddress(0));
 	while (true)
 	{
 		if (GetAsyncKeyState(VK_SPACE))
 		{
-			std::cout << "CRC ->\t " << CRCSecthion((PVOID)ApiWrapper::GetModuleAddress(0), ".text") << '\n';
+			ApiWrapper::printf(L"CRC ->\t %x\n", CRC::CRCSecthion((PVOID)ApiWrapper::GetModuleAddress(0)));
 
-			if (CRCSecthion((PVOID)ApiWrapper::GetModuleAddress(0), ".text") != oldCRC)
+			if (CRC::CRCSecthion((PVOID)ApiWrapper::GetModuleAddress(0)) != oldCRC)
 			{
-				std::cout << "Patch detect!\n";
-				std::cout << "CRC old ->\t " << oldCRC << '\n';
-				std::cout << "CRC new ->\t " << CRCSecthion((PVOID)ApiWrapper::GetModuleAddress(0), ".text") << '\n';
-				std::cin.get();
+				ApiWrapper::printf(L"Patch detect!\n");
+				ApiWrapper::printf(L"CRC old ->\t %x\n", oldCRC);
+				ApiWrapper::printf(L"CRC new ->\t %x\n", CRC::CRCSecthion((PVOID)ApiWrapper::GetModuleAddress(0)) );
+				ApiWrapper::cin();
 				break;
 
 			}
